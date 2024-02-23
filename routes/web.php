@@ -56,4 +56,6 @@ Route::middleware([
     Route::get('store_payment', [PaymentController::class, 'store'])->name('store_payment');
 
     Route::get('programs', [ProgramController::class, 'index'])->name('programs');
+
+    
 });
