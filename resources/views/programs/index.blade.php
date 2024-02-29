@@ -88,6 +88,45 @@
                         @endforeach
                     </div>
                 @endif
+
+
+
+                <h1 class="text-2xl font-semibold mt-8 mb-4">Programi sa Članom ID-a 5 i Uposlenika ID-a 2</h1>
+                <hr/>
+
+                @if($programsWithSpecificMemberAndEmployee->isEmpty())
+                    <p>No programs found with Member ID 5 and Employee ID 2.</p>
+                @else
+                    <div>
+                        @foreach($programsWithSpecificMemberAndEmployee as $program)
+                            <div class="border rounded-lg p-4 mb-4">
+                                <p><strong>Ime člana:</strong> {{ $program->name }}</p>
+                                <p><strong>Trajanje:</strong> {{ $program->duration }} minuta</p>
+                                {{-- Display any other program details as needed --}}
+                            </div>
+                        @endforeach
+                    </div>
+                @endif
+
+
+
+                <h1 class="text-2xl font-semibold mt-8 mb-4">Programi ispod 50 KM člana sa ID-em 2 i Uposlenika 4 ili 5</h1>
+                <hr/>
+
+                @if($programs50->isEmpty())
+                    <p>No programs found with Member ID 5 and Employee ID 2.</p>
+                @else
+                    <div>
+                        @foreach($programs50 as $program)
+                            <div class="border rounded-lg p-4 mb-4">
+                                <p><strong>Ime člana:</strong> {{ $program->name }}</p>
+                                <p><strong>Trajanje:</strong> {{ $program->duration }} minuta</p>
+                                {{-- Display any other program details as needed --}}
+                            </div>
+                        @endforeach
+                    </div>
+                @endif
+
             </div>
         </div>
     </div>

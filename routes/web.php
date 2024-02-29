@@ -6,6 +6,7 @@ use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\EquipmentController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ProgramController;
+use App\Http\Controllers\WeatherController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -31,8 +32,21 @@ Route::middleware([
 ])->group(function () {
 
     Route::get('/', function () {
-        return view('dashboard');
+        // Fetch weather data from the API
+        $apiKey = 'b630d4a1e9009cd211d1536a0fb369b0';
+        $response = Http::get('http://api.openweathermap.org/data/2.5/weather', [
+            'q' => 'Sarajevo', // replace 'your-location' with the desired location
+            'appid' => $apiKey,
+            'units' => 'metric', // specify units for temperature, etc.
+        ]);
+
+        // Check if the API request was successful
+        $weatherData = $response->successful() ? $response->json() : [];
+
+        // Return the view with weather data
+        return view('dashboard', ['weatherData' => $weatherData]);
     })->name('dashboard');
+
 
     Route::get('members', [MemberController::class, 'index'])->name('members');
     Route::get('add_member', [MemberController::class, 'create'])->name('add_member');
@@ -56,6 +70,7 @@ Route::middleware([
     Route::get('store_payment', [PaymentController::class, 'store'])->name('store_payment');
 
     Route::get('programs', [ProgramController::class, 'index'])->name('programs');
+
 
     
 });

@@ -31,8 +31,30 @@ public function index()
     // Most expensive program
     $mostExpensiveProgram = Program::orderBy('price', 'desc')->first();
 
-    return view('programs.index', compact('programsWithDuration30', 'membersWithMonthlySubscription', 'systemAdministrators', 'membersJoinedIn2023', 'mostExpensiveProgram'));
+    $programsWithSpecificMemberAndEmployee = Program::join('members', 'programs.member', '=', 'members.id')
+    ->join('employees', 'programs.employee', '=', 'employees.id')
+    ->where('members.id', 5) // ID of the member
+    ->where('employees.id', 2) // ID of the employee
+    ->select('programs.*')
+    ->get();
+
+
+    $programs50 = Program::join('members', 'programs.member', '=', 'members.id')
+    ->join('employees', 'programs.employee', '=', 'employees.id')
+    ->where('programs.price', '<', 50)
+    ->where(function($query) {
+        $query->where('programs.member', 2)
+              ->where('programs.employee', 4)
+              ->orWhere('programs.employee', 5);
+    })
+    ->get();
+
+
+
+    return view('programs.index', compact('programsWithDuration30', 'membersWithMonthlySubscription', 'systemAdministrators', 'membersJoinedIn2023', 'mostExpensiveProgram','programsWithSpecificMemberAndEmployee','programs50'));
 }
+
+
 
     
 
